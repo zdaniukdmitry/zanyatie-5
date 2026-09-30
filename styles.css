@@ -1,0 +1,559 @@
+/* ============================================================
+   ШПАРГАЛКА ПО CSS
+   Каждый блок — отдельная тема. Открывай index.html в браузере.
+   Порядок разделов повторяет порядок изучения CSS.
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   1. ПЕРЕМЕННЫЕ (Custom Properties)
+   Храним повторяющиеся значения в одном месте и меняем их глобально.
+   К переменной обращаемся через var(--имя).
+   ------------------------------------------------------------ */
+:root {
+  --color-main: #2563eb;      /* основной синий */
+  --color-accent: #f97316;    /* акцентный оранжевый */
+  --color-text: #1f2937;      /* основной текст */
+  --color-muted: #6b7280;     /* приглушённый текст */
+  --color-bg: #f8fafc;        /* фон страницы */
+  --color-card: #ffffff;      /* фон карточек */
+
+  --radius: 12px;             /* скругление углов */
+  --gap: 20px;                /* отступ между элементами */
+  --font-main: "Segoe UI", Arial, sans-serif;
+}
+
+
+/* ------------------------------------------------------------
+   2. СБРОС (Reset)
+   Убираем стандартные отступы браузера, чтобы считать всё самому.
+   * — селектор «всё подряд».
+   ------------------------------------------------------------ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;   /* width/height включают padding и border */
+}
+
+body {
+  font-family: var(--font-main);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.6;        /* межстрочный интервал */
+  padding: var(--gap);
+}
+
+h1, h2, h3 {
+  line-height: 1.2;        /* заголовкам тесный интервал не нужен */
+  margin-bottom: 12px;
+}
+
+p {
+  margin-bottom: 12px;
+  color: var(--color-muted);
+}
+
+a {
+  color: var(--color-main);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;          /* картинка не вылезает за родительский блок */
+  display: block;
+}
+
+
+/* ------------------------------------------------------------
+   3. КЛАССЫ И ИДЕНТИФИКАТОРЫ
+   .класс — можно использовать много раз.
+   #id — только один раз на странице.
+   ------------------------------------------------------------ */
+.title {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: var(--color-muted);
+}
+
+
+/* ------------------------------------------------------------
+   4. РАЗМЕРЫ, ПОЛЯ И ОТСТУПЫ (Box Model)
+   content -> padding (внутренний) -> border (рамка) -> margin (внешний)
+   ------------------------------------------------------------ */
+.box {
+  background-color: var(--color-card);
+  border: 2px solid var(--color-main);
+  padding: 24px;                    /* отступ ВНУТРИ элемента */
+  margin-bottom: var(--gap);        /* отступ СНАРУЖИ элемента */
+  border-radius: var(--radius);
+}
+
+.box--dashed {
+  border-style: dashed;
+  border-color: var(--color-accent);
+}
+
+.box--padded-small {
+  padding: 8px 32px;   /* сверху/снизу 8px, слева/справа 32px */
+}
+
+
+/* ------------------------------------------------------------
+   5. ФОН И ЦВЕТ ТЕКСТА
+   Фон можно задавать цветом, градиентом или картинкой.
+   ------------------------------------------------------------ */
+.bg-gradient {
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  color: #ffffff;                  /* белый текст поверх тёмного фона */
+}
+
+.bg-pattern {
+  background-color: #fff7ed;
+  background-image: repeating-linear-gradient(
+    45deg,                    /* угол полосок */
+    transparent,              /* начало — прозрачно */
+    transparent 10px,
+    #fed7aa 10px,             /* цвет полоски */
+    #fed7aa 20px
+  );
+}
+
+.text-center { text-align: center; }
+.text-right  { text-align: right; }
+
+
+* ----- 5.1 Работа с текстом ----- */
+.uppercase {
+  text-transform: uppercase;        /* ВСЕ БУКВЫ */
+  letter-spacing: 2px;             /* расстояние между буквами */
+}
+
+.underline-decor {
+  text-decoration: underline;      /* подчёркивание */
+  text-decoration-color: var(--color-accent);
+  text-underline-offset: 4px;      /* отступ линии от текста */
+}
+
+.shadow-text {
+  text-shadow: 2px 2px 0 #cbd5e1;  /* тень текста */
+}
+
+
+/* ------------------------------------------------------------
+   6. РАМКИ, СКРУГЛЕНИЯ, ТЕНИ
+   ------------------------------------------------------------ */
+.card {
+  background-color: var(--color-card);
+  border: 1px solid #e5e7eb;
+  border-radius: var(--radius);
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);          /* мягкая тень */
+  transition: box-shadow 0.3s, transform 0.3s;        /* плавное изменение */
+}
+
+.card:hover {
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
+  transform: translateY(-4px);                        /* приподнять карточку */
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;          /* круглые "пилюли" */
+  font-size: 13px;
+  background-color: #dbeafe;
+  color: var(--color-main);
+}
+
+.badge--danger {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+
+/* ------------------------------------------------------------
+   7. DISPLAY — как элемент занимает место
+   block  — во всю ширину, с новой строки
+   inline — по содержимому, нельзя задавать width/height
+   inline-block — как inline, но с width/height
+   none    — спрятать элемент
+   ------------------------------------------------------------ */
+.display-none    { display: none; }
+.display-inline { display: inline; }
+.display-block  { display: block; }
+.display-inline-block { display: inline-block; width: 200px; }
+
+.avatar {
+  display: inline-block;         /* круглый аватар */
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;           /* 50% = круг */
+  background: linear-gradient(135deg, var(--color-main), var(--color-accent));
+  vertical-align: middle;        /* выравнивание по строке */
+}
+
+
+/* ------------------------------------------------------------
+   8. FLEXBOX — расположение в ряд/столбик
+   ------------------------------------------------------------ */
+.row {
+  display: flex;                 /* дочерние элементы встают в ряд */
+  gap: var(--gap);               /* равные промежутки между ними */
+  margin-bottom: var(--gap);
+}
+
+.row--center {
+  justify-content: center;       /* по горизонтали */
+}
+
+.row--between {
+  justify-content: space-between;/* крайние прижаты, середина — центр */
+}
+
+.row--wrap {
+  flex-wrap: wrap;               /* перенос на новую строку при нехватке места */
+}
+
+.col-1 { flex: 1 1 0; }          /* элементы делят ширину поровну */
+.col-2 { flex: 2 1 0; }          /* этот элемент в 2 раза шире */
+.col-fixed { flex: 0 0 220px; } /* фиксированная ширина */
+
+.align-center {
+  align-items: center;           /* выравнивание по вертикали (cross axis) */
+}
+
+.order-2 { order: 2; }           /* визуально поменять местами */
+.order-1 { order: 1; }
+
+
+/* ------------------------------------------------------------
+   9. CSS GRID — сетка с колонками и строками
+   ------------------------------------------------------------ */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);   /* 3 равные колонки */
+  gap: var(--gap);
+  margin-bottom: var(--gap);
+}
+
+.grid--auto {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.grid--areas {
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 100px 100px;
+}
+
+.area-header { grid-column: 1 / -1; }    /* растянуть на всю ширину сетки */
+
+
+/* ------------------------------------------------------------
+   10. ПОЗИЦИОНИРОВАНИЕ
+   position: static | relative | absolute | fixed | sticky
+   ------------------------------------------------------------ */
+.position-relative {
+  position: relative;                     /* база для absolute внутри */
+  height: 120px;
+  background-color: #e0f2fe;
+  border-radius: var(--radius);
+}
+
+.position-absolute {
+  position: absolute;                     /* вырывается из потока */
+  right: 12px;
+  bottom: 12px;
+  background-color: var(--color-main);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.sticky-header {
+  position: sticky;                       /* "прилипает" при прокрутке */
+  top: 0;
+  z-index: 10;                            /* поверх остального */
+  background-color: var(--color-card);
+  border-bottom: 1px solid #e5e7eb;
+  padding: 12px var(--gap);
+  margin: calc(-1 * var(--gap)) 0 var(--gap);
+}
+
+
+/* ------------------------------------------------------------
+   11. ПСЕВДОКЛАССЫ и ПСЕВДОЭЛЕМЕНТЫ
+   :hover — наведение, :first-child — первый, ::before — до содержимого
+   ------------------------------------------------------------ */
+.list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.list li {
+  padding: 10px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  transition: background-color 0.2s;
+}
+
+.list li:hover {
+  background-color: #eff6ff;     /* подсветка строки */
+}
+
+.list li:first-child {
+  border-top: 1px solid #e5e7eb;
+  border-radius: var(--radius) var(--radius) 0 0;
+}
+
+.list li::before {
+  content: "•";                  /* символ, добавляемый CSS-ом */
+  color: var(--color-accent);
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.link-underline {
+  background-image: linear-gradient(var(--color-main), var(--color-main));
+  background-size: 0% 2px;        /* толщина подчёркивания */
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  transition: background-size 0.3s;
+}
+
+.link-underline:hover {
+  background-size: 100% 2px;      /* подчёркивание "вырастает" */
+}
+
+.quote {
+  border-left: 4px solid var(--color-accent);
+  padding-left: 16px;
+  font-style: italic;
+  color: var(--color-muted);
+}
+
+.quote::after {
+  content: " — " attr(data-author);   /* подставляем значение атрибута */
+  font-style: normal;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+
+/* ------------------------------------------------------------
+   12. КНОПКИ
+   ------------------------------------------------------------ */
+.btn {
+  display: inline-block;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-family: inherit;
+  cursor: pointer;              /* курсор-рука */
+  background-color: var(--color-main);
+  color: #ffffff;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn:hover {
+  background-color: #1d4ed8;
+}
+
+.btn:active {
+  transform: scale(0.97);       /* нажатие — кнопка "вдавливается" */
+}
+
+.btn:focus-visible {
+  outline: 3px solid #93c5fd;   /* доступная рамка фокуса с клавиатуры */
+  outline-offset: 2px;
+}
+
+.btn--ghost {
+  background-color: transparent;
+  color: var(--color-main);
+  border: 1px solid var(--color-main);
+}
+
+.btn--ghost:hover {
+  background-color: #eff6ff;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+/* ------------------------------------------------------------
+   13. ФОРМЫ
+   input:focus — состояние при фокусе
+   label — подпись поля
+   ------------------------------------------------------------ */
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 15px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background-color: var(--color-card);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;                            /* убираем стандартную рамку */
+  border-color: var(--color-main);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.form-group input::placeholder {
+  color: #9ca3af;
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox-row input {
+  width: auto;
+}
+
+
+/* ------------------------------------------------------------
+   14. ТАБЛИЦА
+   ------------------------------------------------------------ */
+.table {
+  width: 100%;
+  border-collapse: collapse;   /* убирает двойные рамки */
+  background-color: var(--color-card);
+  margin-bottom: var(--gap);
+}
+
+.table th,
+.table td {
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.table th {
+  background-color: #f1f5f9;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.table tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+
+/* ------------------------------------------------------------
+   15. АНИМАЦИЯ @keyframes
+   ------------------------------------------------------------ */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate {
+  animation: fade-in 0.6s ease both;
+}
+
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+  border: 4px solid #e5e7eb;
+  border-top-color: var(--color-main);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;   /* бесконечное повторение */
+}
+
+
+/* ------------------------------------------------------------
+   16. МЕДИАЗАПРОСЫ (адаптивность)
+   Стили внутри сработают только при указанной ширине экрана.
+   ------------------------------------------------------------ */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);   /* 3 колонки -> 2 */
+  }
+}
+
+@media (max-width: 600px) {
+  .title { font-size: 24px; }
+
+  .grid,
+  .row {
+    grid-template-columns: 1fr;
+    flex-direction: column;      /* flex-ряд становится столбиком */
+  }
+
+  .col-fixed {
+    flex-basis: auto;
+    width: 100%;
+  }
+}
+
+
+/* ------------------------------------------------------------
+   17. УТИЛИТАРНЫЕ КЛАССЫ
+   Маленькие переиспользуемые помощники.
+   ------------------------------------------------------------ */
+.hidden        { display: none; }
+.text-muted    { color: var(--color-muted); }
+.text-small    { font-size: 13px; }
+.text-bold     { font-weight: 700; }
+.mt-0 { margin-top: 0; }
+.mt-1 { margin-top: 8px; }
+.mt-2 { margin-top: 16px; }
+.mt-3 { margin-top: 24px; }
+.mb-2 { margin-bottom: 16px; }
+.p-0  { padding: 0; }
+.w-50 { width: 50%; }
+.rounded { border-radius: var(--radius); }
+.full-width { width: 100%; }
+
+
+/* ------------------------------------------------------------
+   18. СПЕЦИФИЧНОСТЬ (как CSS решает, какое правило главнее)
+   1) важно!      — !important
+   2) id          — #id
+   3) класс/псевдо — .class, :hover
+   4) тег/элемент — div
+   5) *           — всё подряд
+   Пример: .box — это класс, он сильнее простого селектора по тегу.
+   ------------------------------------------------------------ */
+.importance-test {
+  color: #16a34a;
+  color: #dc2626 !important;   /* !important всегда побеждает */
+}
